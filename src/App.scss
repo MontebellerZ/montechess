@@ -1,0 +1,76 @@
+#App {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 3em;
+
+    --BOARD_SIZE: 8;
+    --LIGHT_COLOR: #ffcb86;
+    --DARK_COLOR: #f0f0f0;
+    --WALK_COLOR: #4888ff75;
+    --KILL_COLOR: #ff1a1aa8;
+    --SELF_COLOR: #76d4ff;
+
+    .board {
+        align-self: center;
+        display: grid;
+        grid-template-columns: repeat(var(--BOARD_SIZE), auto);
+        border: 0.2em solid #000;
+
+        .square {
+            padding: 0px;
+            width: min(7.5em, 10vw);
+            height: min(7.5em, 10vw);
+            box-sizing: border-box;
+            outline: 0px;
+            border: 0px;
+            position: relative;
+
+            &.light {
+                background-color: var(--LIGHT_COLOR);
+            }
+            &.dark {
+                background-color: var(--DARK_COLOR);
+            }
+
+            &.mark::before {
+                content: "";
+                top: 50%;
+                left: 50%;
+                position: absolute;
+                width: 40%;
+                aspect-ratio: 1;
+                border-radius: 100%;
+                background-color: var(--WALK_COLOR);
+                transform: translate(-50%, -50%);
+                z-index: 2;
+            }
+
+            &.moving:has(.piece)::before {
+                content: "";
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                position: absolute;
+                background-color: var(--SELF_COLOR);
+                z-index: 0;
+            }
+
+            &.mark:has(.piece) {
+                background-color: var(--KILL_COLOR) !important;
+            }
+
+            .piece {
+                position: absolute;
+                z-index: 1;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                height: 100%;
+                width: 100%;
+            }
+        }
+    }
+}
